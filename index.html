@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="de" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iiSU Launcher - Konsolen-Rahmen-Generator</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-950 text-slate-100 h-full flex flex-col font-sans antialiased selection:bg-indigo-500 selection:text-white">
+
+    <header class="bg-slate-900/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
+                    <i class="fa-solid fa-gamepad text-white text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">iiSU Console Framer</h1>
+                    <p class="text-xs text-slate-400">Quadratischer Launcher-Rahmen-Generator</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                    <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 mr-1.5 animate-pulse"></span>
+                    iiSU Optimized (1:1)
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Controls Column (Left) -->
+        <div class="lg:col-span-5 space-y-6 bg-slate-900/60 backdrop-blur border border-slate-800/80 p-6 rounded-2xl shadow-2xl shadow-black/40">
+            
+            <!-- Step 1: Upload -->
+            <div>
+                <label class="block text-sm font-semibold text-slate-300 mb-2 flex items-center">
+                    <span class="w-6 h-6 rounded-full bg-indigo-600/30 text-indigo-400 flex items-center justify-center text-xs font-bold mr-2 border border-indigo-500/30">1</span>
+                    Spiel- / Coverbild hochladen
+                </label>
+                <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-700 border-dashed rounded-xl hover:border-indigo-500 transition-all cursor-pointer bg-slate-950/40 group relative overflow-hidden" id="drop-zone">
+                    <input type="file" id="image-input" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer z-10">
+                    <div class="space-y-2 text-center">
+                        <div class="mx-auto w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center text-indigo-400 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-cloud-arrow-up text-xl"></i>
+                        </div>
+                        <div class="text-sm text-slate-300">
+                            <span class="font-semibold text-indigo-400 hover:text-indigo-300">Datei auswählen</span> oder hierher ziehen
+                        </div>
+                        <p class="text-xs text-slate-500">PNG, JPG, WEBP (wird automatisch quadratisch angepasst)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Console Selection -->
+            <div>
+                <label for="console-select" class="block text-sm font-semibold text-slate-300 mb-2 flex items-center">
+                    <span class="w-6 h-6 rounded-full bg-indigo-600/30 text-indigo-400 flex items-center justify-center text-xs font-bold mr-2 border border-indigo-500/30">2</span>
+                    Konsole / Design wählen
+                </label>
+                <div class="relative">
+                    <select id="console-select" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 appearance-none text-sm transition-all cursor-pointer shadow-inner">
+                        <optgroup label="Nintendo">
+                            <option value="gb">Game Boy (GB)</option>
+                            <option value="gbc">Game Boy Color (GBC)</option>
+                            <option value="gba">Game Boy Advance (GBA)</option>
+                            <option value="nes" selected>Nintendo Entertainment System (NES)</option>
+                            <option value="snes">Super Nintendo (SNES)</option>
+                            <option value="wii">Nintendo Wii</option>
+                            <option value="wiiu">Nintendo Wii U</option>
+                            <option value="switch">Nintendo Switch</option>
+                        </optgroup>
+                        <optgroup label="Sony">
+                            <option value="psx">PlayStation 1 (PSX)</option>
+                            <option value="ps2">PlayStation 2 (PS2)</option>
+                            <option value="psp">PlayStation Portable (PSP)</option>
+                        </optgroup>
+                        <optgroup label="Microsoft">
+                            <option value="xbox">Xbox (Original)</option>
+                            <option value="x360">Xbox 360</option>
+                            <option value="xone">Xbox One</option>
+                        </optgroup>
+                        <optgroup label="SEGA">
+                            <option value="gamegear">SEGA Game Gear</option>
+                            <option value="genesis">SEGA Genesis</option>
+                            <option value="megadrive">SEGA Mega Drive</option>
+                            <option value="saturn">SEGA Saturn</option>
+                        </optgroup>
+                        <optgroup label="Sonstige / Plattformen">
+                            <option value="android">Android</option>
+                        </optgroup>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
+                        <i class="fa-solid fa-chevron-down text-xs"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Frame Customization Settings -->
+            <div class="space-y-4 pt-2 border-t border-slate-800">
+                <span class="block text-sm font-semibold text-slate-300 flex items-center">
+                    <span class="w-6 h-6 rounded-full bg-indigo-600/30 text-indigo-400 flex items-center justify-center text-xs font-bold mr-2 border border-indigo-500/30">3</span>
+                    Anpassungen & Rahmen-Optionen
+                </span>
+
+                <!-- Frame Style -->
+                <div class="grid grid-cols-2 gap-3">
+                    <button type="button" id="style-classic" class="px-4 py-2.5 rounded-xl text-xs font-medium border border-indigo-500 bg-indigo-600/20 text-indigo-300 transition-all flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-square-full"></i>
+                        <span>Klassischer Rahmen</span>
+                    </button>
+                    <button type="button" id="style-modern" class="px-4 py-2.5 rounded-xl text-xs font-medium border border-slate-700 bg-slate-950/50 text-slate-400 hover:border-slate-600 transition-all flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-expand"></i>
+                        <span>Vollbild + Logo</span>
+                    </button>
+                </div>
+
+                <!-- Crop Mode -->
+                <div>
+                    <label class="block text-xs font-medium text-slate-400 mb-1.5">Bild-Einpassung im Quadrat (1:1)</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button type="button" id="fit-cover" class="px-3 py-2 rounded-lg text-xs font-medium border border-indigo-500 bg-indigo-600/20 text-indigo-300 transition-all">
+                            Ausfüllen (Cover)
+                        </button>
+                        <button type="button" id="fit-contain" class="px-3 py-2 rounded-lg text-xs font-medium border border-slate-700 bg-slate-950/50 text-slate-400 hover:border-slate-600 transition-all">
+                            Einpassen (Contain)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Border Thickness Slider -->
+                <div>
+                    <div class="flex justify-between text-xs text-slate-400 mb-1">
+                        <span>Rahmenstärke</span>
+                        <span id="border-val">20px</span>
+                    </div>
+                    <input type="range" id="border-slider" min="10" max="60" value="20" class="w-full accent-indigo-500 bg-slate-800 h-2 rounded-lg cursor-pointer">
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="pt-4 flex gap-3">
+                <button id="reset-btn" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium py-3 px-4 rounded-xl text-sm transition-all flex items-center justify-center space-x-2 border border-slate-700">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    <span>Zurücksetzen</span>
+                </button>
+                <button id="download-btn" class="flex-[2] bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-medium py-3 px-4 rounded-xl text-sm transition-all shadow-lg shadow-indigo-600/30 flex items-center justify-center space-x-2 transform active:scale-95">
+                    <i class="fa-solid fa-download"></i>
+                    <span>iiSU PNG herunterladen</span>
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Preview Column (Right) -->
+        <div class="lg:col-span-7 flex flex-col items-center justify-center bg-slate-900/60 backdrop-blur border border-slate-800/80 p-6 rounded-2xl shadow-2xl shadow-black/40">
+            <div class="w-full flex items-center justify-between mb-4">
+                <div class="flex items-center space-x-2">
+                    <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+                    <span class="text-sm font-medium text-slate-300">Live Vorschau (1024x1024 px)</span>
+                </div>
+                <span class="text-xs text-slate-500 bg-slate-950 px-3 py-1 rounded-full border border-slate-800">Format: Quadratisch / iiSU Ready</span>
+            </div>
+
+            <!-- Canvas Wrapper -->
+            <div class="relative w-full max-w-[500px] aspect-square bg-slate-950 rounded-2xl overflow-hidden border border-slate-800 shadow-2xl flex items-center justify-center group">
+                <canvas id="preview-canvas" width="1024" height="1024" class="w-full h-full object-contain"></canvas>
+                
+                <!-- Loading indicator overlay -->
+                <div id="loading-overlay" class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm flex flex-col items-center justify-center text-slate-400 opacity-0 pointer-events-none transition-opacity">
+                    <i class="fa-solid fa-spinner fa-spin text-3xl text-indigo-500 mb-2"></i>
+                    <span class="text-xs">Verarbeite Bild...</span>
+                </div>
+            </div>
+
+            <p class="text-xs text-slate-500 mt-4 text-center">
+                Der Rahmen und das Konsolen-Logo oben links werden dynamisch auf das quadratische Bild gerendert.
+            </p>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-auto py-6 border-t border-slate-900 text-center text-xs text-slate-500">
+        iiSU Launcher Console Framer &bull; Erstellt für retro-gaming Enthusiasten.
+    </footer>
+
+    <script>
+        // Console Themes Configuration (Colors and Branding)
+        const consolesData = {
+            gb: { name: "Game Boy", color: "#8b9bb4", accent: "#304263", logoText: "GAME BOY", textColor: "#ffffff", badgeBg: "#304263" },
+            gbc: { name: "Game Boy Color", color: "#8b5cf6", accent: "#6d28d9", logoText: "GBC", textColor: "#ffffff", badgeBg: "#6d28d9" },
+            gba: { name: "Game Boy Advance", color: "#6366f1", accent: "#4338ca", logoText: "GAME BOY ADVANCE", textColor: "#ffffff", badgeBg: "#4338ca" },
+            nes: { name: "NES", color: "#dc2626", accent: "#991b1b", logoText: "NES", textColor: "#ffffff", badgeBg: "#991b1b" },
+            snes: { name: "Super Nintendo", color: "#475569", accent: "#1e293b", logoText: "SNES", textColor: "#ffffff", badgeBg: "#1e293b" },
+            psx: { name: "PlayStation", color: "#2563eb", accent: "#1d4ed8", logoText: "PSX", textColor: "#ffffff", badgeBg: "#1d4ed8" },
+            psp: { name: "PSP", color: "#f97316", accent: "#c2410c", logoText: "PSP", textColor: "#ffffff", badgeBg: "#c2410c" },
+            ps2: { name: "PlayStation 2", color: "#0f172a", accent: "#020617", logoText: "PS2", textColor: "#38bdf8", badgeBg: "#020617", borderGlow: "#0284c7" },
+            android: { name: "Android", color: "#65a30d", accent: "#4d7c0f", logoText: "ANDROID", textColor: "#ffffff", badgeBg: "#4d7c0f" },
+            xbox: { name: "Xbox", color: "#16a34a", accent: "#15803d", logoText: "XBOX", textColor: "#ffffff", badgeBg: "#15803d" },
+            x360: { name: "Xbox 360", color: "#22c55e", accent: "#16a34a", logoText: "XBOX 360", textColor: "#000000", badgeBg: "#22c55e" },
+            xone: { name: "Xbox One", color: "#047857", accent: "#065f46", logoText: "XBOX ONE", textColor: "#ffffff", badgeBg: "#065f46" },
+            gamegear: { name: "Game Gear", color: "#1d4ed8", accent: "#1e40af", logoText: "GAME GEAR", textColor: "#ffffff", badgeBg: "#1e40af" },
+            genesis: { name: "SEGA Genesis", color: "#1e293b", accent: "#0f172a", logoText: "GENESIS", textColor: "#ffffff", badgeBg: "#0f172a" },
+            megadrive: { name: "SEGA Mega Drive", color: "#b91c1c", accent: "#991b1b", logoText: "MEGA DRIVE", textColor: "#ffffff", badgeBg: "#991b1b" },
+            saturn: { name: "SEGA Saturn", color: "#64748b", accent: "#475569", logoText: "SATURN", textColor: "#ffffff", badgeBg: "#475569" },
+            wii: { name: "Nintendo Wii", color: "#f8fafc", accent: "#e2e8f0", logoText: "Wii", textColor: "#0f172a", badgeBg: "#e2e8f0", isLight: true },
+            wiiu: { name: "Nintendo Wii U", color: "#0284c7", accent: "#0369a1", logoText: "Wii U", textColor: "#ffffff", badgeBg: "#0369a1" },
+            switch: { name: "Nintendo Switch", color: "#ef4444", accent: "#dc2626", logoText: "SWITCH", textColor: "#ffffff", badgeBg: "#dc2626" }
+        };
+
+        // State variables
+        let uploadedImage = null;
+        let currentConsole = 'nes';
+        let frameStyle = 'classic'; // 'classic' or 'modern'
+        let fitMode = 'cover'; // 'cover' or 'contain'
+        let borderWidth = 20;
+
+        // Elements
+        const canvas = document.getElementById('preview-canvas');
+        const ctx = canvas.getContext('2d');
+        const imageInput = document.getElementById('image-input');
+        const consoleSelect = document.getElementById('console-select');
+        const borderSlider = document.getElementById('border-slider');
+        const borderValSpan = document.getElementById('border-val');
+        const resetBtn = document.getElementById('reset-btn');
+        const downloadBtn = document.getElementById('download-btn');
+        const styleClassicBtn = document.getElementById('style-classic');
+        const styleModernBtn = document.getElementById('style-modern');
+        const fitCoverBtn = document.getElementById('fit-cover');
+        const fitContainBtn = document.getElementById('fit-contain');
+
+        function loadDefaultImage() {
+            const img = new Image();
+            img.crossOrigin = "anonymous";
+            img.onload = function() {
+                uploadedImage = img;
+                renderCanvas();
+            };
+            // Default sample retro cover image placeholder
+            img.src = "https://placehold.co/800x600/1e293b/cbd5e1?text=DROP+OR+UPLOAD+COVER";
+        }
+
+        imageInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.onload = function() {
+                        uploadedImage = img;
+                        renderCanvas();
+                    };
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Drag and drop support
+        const dropZone = document.getElementById('drop-zone');
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                dropZone.classList.add('border-indigo-500', 'bg-indigo-950/20');
+            }, false);
+        });
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('border-indigo-500', 'bg-indigo-950/20');
+            }, false);
+        });
+        dropZone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const file = dt.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.onload = function() {
+                        uploadedImage = img;
+                        renderCanvas();
+                    };
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        consoleSelect.addEventListener('change', (e) => {
+            currentConsole = e.target.value;
+            renderCanvas();
+        });
+
+        borderSlider.addEventListener('input', (e) => {
+            borderWidth = parseInt(e.target.value);
+            borderValSpan.textContent = borderWidth + 'px';
+            renderCanvas();
+        });
+
+        styleClassicBtn.addEventListener('click', () => {
+            frameStyle = 'classic';
+            styleClassicBtn.className = "px-4 py-2.5 rounded-xl text-xs font-medium border border-indigo-500 bg-indigo-600/20 text-indigo-300 transition-all flex items-center justify-center space-x-2";
+            styleModernBtn.className = "px-4 py-2.5 rounded-xl text-xs font-medium border border-slate-700 bg-slate-950/50 text-slate-400 hover:border-slate-600 transition-all flex items-center justify-center space-x-2";
+            renderCanvas();
+        });
+
+        styleModernBtn.addEventListener('click', () => {
+            frameStyle = 'modern';
+            styleModernBtn.className = "px-4 py-2.5 rounded-xl text-xs font-medium border border-indigo-500 bg-indigo-600/20 text-indigo-300 transition-all flex items-center justify-center space-x-2";
+            styleClassicBtn.className = "px-4 py-2.5 rounded-xl text-xs font-medium border border-slate-700 bg-slate-950/50 text-slate-400 hover:border-slate-600 transition-all flex items-center justify-center space-x-2";
+            renderCanvas();
+        });
+
+        fitCoverBtn.addEventListener('click', () => {
+            fitMode = 'cover';
+            fitCoverBtn.className = "px-3 py-2 rounded-lg text-xs font-medium border border-indigo-500 bg-indigo-600/20 text-indigo-300 transition-all";
+            fitContainBtn.className = "px-3 py-2 rounded-lg text-xs font-medium border border-slate-700 bg-slate-950/50 text-slate-400 hover:border-slate-600 transition-all";
+            renderCanvas();
+        });
+
+        fitContainBtn.addEventListener('click', () => {
+            fitMode = 'contain';
+            fitContainBtn.className = "px-3 py-2 rounded-lg text-xs font-medium border border-indigo-500 bg-indigo-600/20 text-indigo-300 transition-all";
+            fitCoverBtn.className = "px-3 py-2 rounded-lg text-xs font-medium border border-slate-700 bg-slate-950/50 text-slate-400 hover:border-slate-600 transition-all";
+            renderCanvas();
+        });
+
+        resetBtn.addEventListener('click', () => {
+            currentConsole = 'nes';
+            consoleSelect.value = 'nes';
+            borderWidth = 20;
+            borderSlider.value = 20;
+            borderValSpan.textContent = '20px';
+            frameStyle = 'classic';
+            styleClassicBtn.click();
+            fitMode = 'cover';
+            fitCoverBtn.click();
+            loadDefaultImage();
+        });
+
+        function renderCanvas() {
+            if (!uploadedImage) return;
+
+            const size = 1024; // High resolution square canvas for iiSU Launcher
+            canvas.width = size;
+            canvas.height = size;
+
+            const cfg = consolesData[currentConsole] || consolesData['nes'];
+
+            // Clear canvas background
+            ctx.fillStyle = cfg.isLight ? '#0f172a' : '#090d16';
+            ctx.fillRect(0, 0, size, size);
+
+            const bw = borderWidth * (size / 500); // Scale border width relative to 1024px
+
+            // Calculate inner frame area for image
+            let imgX = bw;
+            let imgY = bw;
+            let imgW = size - (bw * 2);
+            let imgH = size - (bw * 2);
+
+            // Draw image with Cover or Contain fitting
+            ctx.save();
+            ctx.beginPath();
+            if (frameStyle === 'classic') {
+                // Rounded corner clipping for inner image
+                ctx.roundRect(imgX, imgY, imgW, imgH, 16);
+            } else {
+                ctx.rect(imgX, imgY, imgW, imgH);
+            }
+            ctx.clip();
+
+            const iRatio = uploadedImage.width / uploadedImage.height;
+            const cRatio = imgW / imgH;
+            let sWidth, sHeight, sX, sY;
+
+            if (fitMode === 'cover') {
+                if (iRatio > cRatio) {
+                    sHeight = uploadedImage.height;
+                    sWidth = uploadedImage.height * cRatio;
+                    sX = (uploadedImage.width - sWidth) / 2;
+                    sY = 0;
+                } else {
+                    sWidth = uploadedImage.width;
+                    sHeight = uploadedImage.width / cRatio;
+                    sX = 0;
+                    sY = (uploadedImage.height - sHeight) / 2;
+                }
+                ctx.drawImage(uploadedImage, sX, sY, sWidth, sHeight, imgX, imgY, imgW, imgH);
+            } else {
+                // Contain mode with blurred background or letterbox
+                ctx.fillStyle = '#0f172a';
+                ctx.fillRect(imgX, imgY, imgW, imgH);
+                
+                let dW = imgW;
+                let dH = imgW / iRatio;
+                if (dH > imgH) {
+                    dH = imgH;
+                    dW = imgH * iRatio;
+                }
+                let dx = imgX + (imgW - dW) / 2;
+                let dy = imgY + (imgH - dH) / 2;
+                ctx.drawImage(uploadedImage, dx, dy, dW, dH);
+            }
+            ctx.restore();
+
+            // Draw Console Frame Border / Theme
+            if (frameStyle === 'classic') {
+                // Outer Console Border / Bevel effect
+                ctx.strokeStyle = cfg.color;
+                ctx.lineWidth = bw;
+                ctx.strokeRect(bw / 2, bw / 2, size - bw, size - bw);
+
+                // Subtle inner border shadow
+                ctx.strokeStyle = cfg.accent;
+                ctx.lineWidth = 4;
+                ctx.strokeRect(bw, bw, size - (bw * 2), size - (bw * 2));
+            } else {
+                // Modern full border overlay gradient
+                const grad = ctx.createLinearGradient(0, 0, size, size);
+                grad.addColorStop(0, cfg.color);
+                grad.addColorStop(1, cfg.accent);
+                ctx.strokeStyle = grad;
+                ctx.lineWidth = bw * 0.75;
+                ctx.strokeRect(bw * 0.375, bw * 0.375, size - (bw * 0.75), size - (bw * 0.75));
+            }
+
+            // Draw Console Logo / Badge in Top Left Corner
+            drawConsoleLogo(cfg, bw);
+        }
+
+        function drawConsoleLogo(cfg, bw) {
+            ctx.save();
+            
+            // Badge positioning in top-left
+            const padding = Math.max(16, bw * 0.6);
+            const badgeHeight = Math.max(48, bw * 1.4);
+            
+            // Measure text for badge width
+            ctx.font = `bold ${Math.round(badgeHeight * 0.45)}px 'Inter', sans-serif`;
+            const textMetrics = ctx.measureText(cfg.logoText);
+            const badgeWidth = Math.max(100, textMetrics.width + 48);
+            
+            const badgeX = padding + (bw > 30 ? bw * 0.5 : 10);
+            const badgeY = padding + (bw > 30 ? bw * 0.5 : 10);
+            
+            // Badge background pill with shadow
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+            ctx.shadowBlur = 15;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 6;
+
+            ctx.fillStyle = cfg.badgeBg;
+            ctx.beginPath();
+            ctx.roundRect(badgeX, badgeY, badgeWidth, badgeHeight, badgeHeight / 2);
+            ctx.fill();
+
+            // Badge Border accent
+            ctx.shadowBlur = 0;
+            ctx.shadowOffsetY = 0;
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Console Icon / Dot indicator inside badge
+            const dotRadius = badgeHeight * 0.18;
+            const dotX = badgeX + badgeHeight * 0.45;
+            const dotY = badgeY + badgeHeight / 2;
+            
+            ctx.fillStyle = cfg.isLight ? '#0284c7' : '#ffffff';
+            ctx.beginPath();
+            ctx.arc(dotX, dotY, dotRadius, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Logo Text inside badge
+            ctx.fillStyle = cfg.textColor;
+            ctx.font = `bold ${Math.round(badgeHeight * 0.38)}px 'Inter', sans-serif`;
+            ctx.textBaseline = 'middle';
+            ctx.textAlign = 'left';
+            ctx.fillText(cfg.logoText, dotX + dotRadius + 12, dotY + 1);
+
+            ctx.restore();
+        }
+
+        downloadBtn.addEventListener('click', () => {
+            if (!uploadedImage) return;
+
+            // Trigger download
+            const link = document.createElement('a');
+            link.download = `iisu-launcher-${currentConsole}-${Date.now()}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        });
+
+        // Initialize on load
+        window.onload = function() {
+            loadDefaultImage();
+        };
+    </script>
+</body>
+</html>
